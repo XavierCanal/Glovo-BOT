@@ -1,6 +1,11 @@
 {
   "users": [
     {
+      "id": "ad75d475-ac57-44f4-a02a-8f6def58ff56",
+      "fullName": "Pepito",
+      "username": "1a"
+    },
+    {
       "username": "Xaavaa",
       "id": "462328941043122177",
       "fullName": "Xavier"

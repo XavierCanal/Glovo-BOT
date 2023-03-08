@@ -36,8 +36,14 @@ client.once(Events.ClientReady, () => {
 client.on(Events.MessageCreate, async interaction => {
   if (!interaction.content.startsWith(process.env.PREFIX) || interaction.author.bot) return;
     console.log(`[INFO] Executing command ${interaction.content} from ${interaction.author.tag}.`)
-    const command = interaction.client.commands.get((interaction.content).substring(1));
+    var command = interaction.client.commands.get((interaction.content).substring(1));
+		const args = interaction.content.slice(process.env.PREFIX).trim().split(/ +/g);
+    
+    if (args.length > 1) {
+      command = interaction.client.commands.get(args[0].substring(1));
+      args.shift;
 
+    }
     if (!command) {
       console.error(`No command matching ${interaction.commandName} was found.`);
       return;
