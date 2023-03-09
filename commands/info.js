@@ -7,7 +7,7 @@ module.exports = {
 	async execute(interaction) {
 		return interaction.reply(":information_source: Hi, I'm **Glovo Bot!** I'm here to help you with your orders on Glovo. :information_source: \n"
         + " You can use the following commands to get started: \n"
-        + "     \`!start-register\` - to begin your registration\n"
+        + "     \`!account-commands\` - to list all account commands\n"
         + "     \`!order\` - to place an order\n"
         + "     \`!cancel\` - to cancel an order\n"
         + "     \`!status\` - to check the status of your order\n"

@@ -7,8 +7,7 @@ function getOneUser(id) {
     }
   
     try {
-      const user = userService.getUserById(id);
-      return user;
+      return userService.getUserById(id);
     } catch (error) {
         console.log(`[ERROR]:.`+ error?.message || error);
     }
@@ -27,58 +26,39 @@ function getOneUser(id) {
     try {
       return userService.createNewUser(newUser);
     } catch (error) {
-        return "[ERROR]";
+        return "[ERROR]: " + error.message;
     }
   };
   
-  const updateOneUser = (req, res) => {
-    const {
-      body,
-      params: { userName },
-    } = req;
-  
-    if (!userName) {
-      res.status(400).send({
-        status: "FAILED",
-        data: { error: "Parameter ':userName' can not be empty" },
-      });
+  function deleteOneUser(userId) {
+    if (!userId) {
+      console.log(`[ERROR] No id provided.`)
+        return;
     }
   
     try {
-      const updatedUser = userService.updateOneUser(userName, body);
-      res.send({ status: "OK", data: updatedUser });
+      return userService.deleteOneUser(userId);
     } catch (error) {
-      res
-        .status(error?.status || 500)
-        .send({ status: "FAILED", data: { error: error?.message || error } });
+      return "[ERROR]: " + error.message;
     }
   };
+  function addCoords(user, lat, long) {
   
-  const deleteOneUser = (req, res) => {
-    const {
-      params: { userName },
-    } = req;
-  
-    if (!userName) {
-      res.status(400).send({
-        status: "FAILED",
-        data: { error: "Parameter ':userName' can not be empty" },
-      });
+    if (!user || !lat || !long) {
+      console.log(`[ERROR] One of the following keys is missing or is empty in request body: 'user', 'lat','long'`)
+      return "[ERROR] Some or all parameters are empty";
     }
   
     try {
-      userService.deleteOneUser(userName);
-      res.status(204).send({ status: "OK" });
+      return userService.addCoords(user, lat, long);
     } catch (error) {
-      res
-        .status(error?.status || 500)
-        .send({ status: "FAILED", data: { error: error?.message || error } });
+      return "[ERROR]: " + error.message;
     }
   };
   
   module.exports = {
     getOneUser,
     createNewUser,
-    updateOneUser,
-    deleteOneUser
+    deleteOneUser,
+    addCoords
   };

@@ -51,6 +51,7 @@ client.on(Events.MessageCreate, async interaction => {
   
     try {
       await command.execute(interaction);
+      console.log("Command executed successfully.")
     } catch (error) {
       console.error(error);
       if (interaction.replied || interaction.deferred) {

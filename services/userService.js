@@ -1,9 +1,8 @@
 const User = require("../models/User");
 
-const getUserById = (userName) => {
+const getUserById = (userId) => {
     try {
-      const user = User.getUserForName(userName);
-      return user;
+      return User.getUserById(userId);
     } catch (error) {
       throw error;
     }
@@ -17,7 +16,25 @@ const getUserById = (userName) => {
     }
   };
 
+  const deleteOneUser = (userId) => {
+    try {
+      return User.deleteOneUser(userId);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  function addCoords (user, lat, long) {
+    try {
+      return User.addCoords(user, lat, long);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   module.exports = {
     getUserById,
-    createNewUser
+    createNewUser,
+    deleteOneUser,
+    addCoords
   };
