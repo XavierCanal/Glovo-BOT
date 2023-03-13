@@ -7,6 +7,14 @@ const getUserById = (userId) => {
       throw error;
     }
   };
+
+const getLatLong = (userId) => {
+    try {
+      return User.getLatLongFromUserId(userId);
+    } catch (error) {
+      throw error;
+    }
+  };
   
   const createNewUser = (newUser) => {
     try {
@@ -36,5 +44,6 @@ const getUserById = (userId) => {
     getUserById,
     createNewUser,
     deleteOneUser,
-    addCoords
+    addCoords,
+    getLatLong
   };

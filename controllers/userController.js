@@ -12,6 +12,19 @@ function getOneUser(id) {
         console.log(`[ERROR]:.`+ error?.message || error);
     }
   };
+
+  function getLatLong(id) {  
+    if (!id) {
+        console.log(`[ERROR] No id provided.`)
+        return;
+    }
+  
+    try {
+      return userService.getLatLong(id);
+    } catch (error) {
+        console.log(`[ERROR]:.`+ error?.message || error);
+    }
+  };
   
   function createNewUser(newUser) {
     if (
@@ -60,5 +73,6 @@ function getOneUser(id) {
     getOneUser,
     createNewUser,
     deleteOneUser,
-    addCoords
+    addCoords,
+    getLatLong
   };

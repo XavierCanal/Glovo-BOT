@@ -36,6 +36,20 @@ function createNewUser(newUser) {
     }
   };
 
+  function getLatLongFromUserId(id) {
+    try {
+      const user = DB.users.find((user) => user.id === id);
+  
+      if (!user) {
+        return "[ERROR] Can't find an account liked with this user.";
+      }
+  
+      return user;
+    } catch (error) {
+      return "[ERROR]: " + error.message;
+    }
+  };
+
   const deleteOneUser = (id) => {
     try {
       const indexForDeletion = DB.users.findIndex(
@@ -63,7 +77,7 @@ function createNewUser(newUser) {
       }
       userC.lat = lat;
       userC.long = long;
-  
+      userC.fullName = DB.users[indexForUpdate].fullName;
       DB.users[indexForUpdate] = userC;
       saveToDatabase(DB);
   
@@ -86,6 +100,7 @@ module.exports = {
     getUserById,
     deleteOneUser,
     addCoords,
+    getLatLongFromUserId,
     User
   };
   

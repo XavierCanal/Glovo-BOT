@@ -11,7 +11,7 @@ module.exports = {
         + "     \`!start-register\` - Begin your registration\n"
         + "     \`!account\` - Lists your info\n"
         + "     \`!delete-account\` - Delete your account if exists\n"
-        + "     \`!add-coords\` - Add latitude and longitude, remember to add the arguments!\n"
+        + "     \`!add-coords lat long\` - Add latitude and longitude, remember to change lat and long for valid coords!\n"
 
 
         );
