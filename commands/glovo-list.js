@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const userController  = require('../controllers/userController');
 const { User } = require('../models/User');
 const axios = require('axios');
-const googleService = require('../services/googleMapService');
+const locationHelper = require('../services/locationHelper');
 
 
 module.exports = {
@@ -15,11 +15,13 @@ module.exports = {
             interaction.reply("[WARNING] You didn't provide your latitude and longitude, check `!account-commands` \n or if you don't have an account (check it with `!account`) register with `!start-register` 😊")
         } else { 
             interaction.reply(`[WARNING] Not implemented yet.`)
-            let city = await googleService.getCityName(user.lat, user.long)
-            if(city) {
-                
-                //interaction.reply(`[INFO] Your city is ${city}`)
-            }
+            await locationHelper(user.lat, user.long, (err, data) => {
+                if (err) {
+                  console.log('Error:', err.message);
+                } else {
+                  interaction.reply(`[SUCCESS] Your city is ${data.city}!`)
+                }
+              });
         }
         },
 };
