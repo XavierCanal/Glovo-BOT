@@ -15,18 +15,17 @@ module.exports = {
 			await interaction.channel.send(`You didn't provide any arguments, ${interaction.author}!`);
 		} else {
 			var user = new User(interaction.author.username, interaction.author.id)
-			await interaction.channel.send(userController.addCoords(user, args[0], args[1]));
-			interaction.channel.send(`Searching your city...`)
+			await interaction.reply(userController.addCoords(user, args[0], args[1]));
+			interaction.reply(`**********************************\n  Searching your city...`)
 			await locationHelper(user.lat, user.long, (err, data) => {
                 if (err) {
                   console.log('Error:', err.message);
-				  interaction.reply("[ERROR] There was an error while searching your city. Please try again later, using the command `!update-city \n We use a public API, so it could be down. Or we exceded the maximum requests per day😔")
+				  interaction.reply("[ERROR] There was an error while searching your city. Please try again later, using the command `!update-city \n We use a public API, so it could be down. Or we exceded the maximum requests per day 😔")
                 } else {
                   interaction.reply(`[SUCCESS] Your city is ${data.city}! \n saving it...`)
+				  interaction.reply(userController.updateCity(user, data.city));
                 }
               });
-			// now we have to save the city in the user
-
 
 		}
         

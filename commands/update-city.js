@@ -7,19 +7,20 @@ const locationHelper = require('../services/locationHelper');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('glovo-list')
+		.setName('update-city')
 		.setDescription('Response the user info'),
 	async execute(interaction) {
         let user = await userController.getLatLong(interaction.author.id);
 		if (!user.lat || ! user.long) {
             interaction.reply("[WARNING] You didn't provide your latitude and longitude, check `!account-commands` \n or if you don't have an account (check it with `!account`) register with `!start-register` 😊")
-        } else { 
-            interaction.reply(`[WARNING] Not implemented yet.`)
+        } else {
             await locationHelper(user.lat, user.long, (err, data) => {
                 if (err) {
                   console.log('Error:', err.message);
+                  interaction.reply("[ERROR] There was an error while searching your city. Please try again later.. \n We use a public API, so it could be down. Or we exceded the maximum requests per day 😔")
                 } else {
-                  interaction.reply(`[SUCCESS] Your city is ${data.city}!`)
+                  interaction.reply(`[SUCCESS] Your city is ${data.city}! \n saving it...`)
+				          interaction.reply(userController.updateCity(user, data.city));
                 }
               });
         }

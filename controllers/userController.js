@@ -68,11 +68,26 @@ function getOneUser(id) {
       return "[ERROR]: " + error.message;
     }
   };
+
+  function updateCity(user, city) {
+    console.log("userController")
+      if (!user || !city) {
+        console.log(`[ERROR] One of the following keys is missing or is empty in request body: 'user', 'city'`)
+        return "[ERROR] Some or all parameters are empty";
+      }
+    
+      try {
+        return userService.updateCity(user, city);
+      } catch (error) {
+        return "[ERROR]: " + error.message;
+      }
+  }
   
   module.exports = {
     getOneUser,
     createNewUser,
     deleteOneUser,
     addCoords,
-    getLatLong
+    getLatLong,
+    updateCity
   };

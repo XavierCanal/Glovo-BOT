@@ -26,11 +26,9 @@ function createNewUser(newUser) {
       if (!user) {
         return "[WARNING] Can't find an account liked with this user. use -> `!start-register` to get the steps in order to register.";
       }
-  
-      return "**User found!**"
-      + "\n  - username: *"+ user.username 
-      + "*\n  - id: " +user.id.slice(0, -7) + "XXXXXXXX" 
-      + "\n  - fullname: *"+ user.fullName +"*";
+      if(user.city) city = "\n  - city: "+ user.city;
+
+      return user;
     } catch (error) {
       return "[ERROR]: " + error.message;
     }
@@ -81,11 +79,32 @@ function createNewUser(newUser) {
       DB.users[indexForUpdate] = userC;
       saveToDatabase(DB);
   
-      return "[SUCCESS] User coords updated!";
+      return "[SUCCESS] User coords saved!";
     } catch (error) {
       return "[ERROR]: " + error.message;
     }
   };
+
+  function updateCity (userC, city) {
+    try {
+      console.log("User updateCity: ", userC)
+      const indexForUpdate = DB.users.findIndex(
+        (user) => user.id === userC.id
+      );
+  
+      if (indexForUpdate === -1) {
+        return "[WARNING] Can't find user with this id.";
+      }
+      userC.city = city;
+      userC.fullName = DB.users[indexForUpdate].fullName;
+      DB.users[indexForUpdate] = userC;
+      saveToDatabase(DB);
+  
+      return "[SUCCESS] User city updated!";
+    } catch (error) {
+      return "[ERROR]: " + error.message;
+    }
+  }
 
   class User {
     constructor(username, id, fullName) {
@@ -101,6 +120,7 @@ module.exports = {
     deleteOneUser,
     addCoords,
     getLatLongFromUserId,
-    User
+    User,
+    updateCity
   };
   

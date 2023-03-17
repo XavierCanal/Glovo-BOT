@@ -1,5 +1,6 @@
 const https = require('https');
 const localityLanguage = 'es';
+const DB = require("../data/cities-IATA.json")
 
 function reverseGeocode(latitude, longitude, callback) {
   const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=${localityLanguage}`;
@@ -19,4 +20,14 @@ function reverseGeocode(latitude, longitude, callback) {
   });
 }
 
-module.exports = reverseGeocode, reverseGeocode;
+function getCityIATAByName (cityName) {
+  const city = DB.codes.find((city) => city.cityName === cityName);
+  if (!city) {
+    return "[ERROR] Can't find an IATA code for this city.";
+  }
+  return city.IATA;
+}
+
+module.exports =  {
+  reverseGeocode, getCityIATAByName
+}
