@@ -41,8 +41,6 @@ const getLatLong = (userId) => {
   };
 
   function updateCity (user, city) {
-    console.log("userService")
-
     try {
       return User.updateCity(user, city);
     } catch (error) {

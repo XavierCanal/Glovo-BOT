@@ -70,7 +70,6 @@ function getOneUser(id) {
   };
 
   function updateCity(user, city) {
-    console.log("userController")
       if (!user || !city) {
         console.log(`[ERROR] One of the following keys is missing or is empty in request body: 'user', 'city'`)
         return "[ERROR] Some or all parameters are empty";

@@ -87,7 +87,6 @@ function createNewUser(newUser) {
 
   function updateCity (userC, city) {
     try {
-      console.log("User updateCity: ", userC)
       const indexForUpdate = DB.users.findIndex(
         (user) => user.id === userC.id
       );

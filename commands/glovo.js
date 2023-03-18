@@ -5,9 +5,11 @@ module.exports = {
 		.setName('glovo')
 		.setDescription('Give glovo instructions'),
 	async execute(interaction) {
-		await interaction.reply(`Hey ${interaction.author}, these are the commands to start using glovo-BOT.`
+		await interaction.reply(`Hey ${interaction.author}, these are the commands to start using glovo-BOT.\n`
 		+		"In order to list restaurants \n"+
-        "---> `!glovo-list` \n"
+        		"---> `!glovo-restaurants` \n"+
+				"---> `!glovo-menu` <'restaurantId restaurantAddressID'> \n"
+
 		);
 	},
 };

@@ -1,10 +1,10 @@
 const localityLanguage = 'es';
 const httpsHelper = require('./httpsHelper');
 
-function getRestaurants(IATA, user, offset, callback) {
+function getMenu(ID,AddressID, user, IATA, callback) {
     const options = {
         hostname: `api.glovoapp.com`,
-        path: `/v3/feeds/categories/1?cacheId=${IATA}&offset=${offset}`,
+        path: `/v3/stores/${ID}/addresses/${AddressID}/content`,
         method: 'GET',
         "glovo-delivery-location-latitude": user.lat,
         "glovo-delivery-location-longitude": user.long,
@@ -25,8 +25,9 @@ function getRestaurants(IATA, user, offset, callback) {
             callback(null, data);
         }
     });
+
 }
 
 module.exports = {
-    getRestaurants
+    getMenu
 };
