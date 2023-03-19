@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('start-register')
-		.setDescription('Send private instructions'),
+		.setDescription('This command starts the registration process, it will send you a DM with the instructions'),
 	async execute(interaction) {
 		await interaction.reply(`Hey ${interaction.author}, check your DMs!.`);
         await interaction.author.send("Follow this instructions in order to get registred in our system \n"+

@@ -7,7 +7,7 @@ const locationHelper = require('../services/locationHelper');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('add-coords')
-		.setDescription('Add latitude and longitude'),
+		.setDescription('This command Add latitude and longitude to your user account if there is one'),
 	async execute(interaction) {
 		const args = interaction.content.slice(process.env.PREFIX).trim().split(/ +/g);
 		args.shift();

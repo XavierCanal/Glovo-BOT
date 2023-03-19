@@ -6,7 +6,7 @@ const { User } = require('../models/User');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('account')
-		.setDescription('Response the user info'),
+		.setDescription('This command shows your account info, if there is one.'),
 	async execute(interaction) {
 		let user = userController.getOneUser(interaction.author.id);
 		if(user && user != "[WARNING] Can't find an account liked with this user. use -> `!start-register` to get the steps in order to register.") {

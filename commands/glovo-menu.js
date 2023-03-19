@@ -24,7 +24,6 @@ module.exports = {
                 if (!user.city) {
                     interaction.reply("[ERROR] You haven't set your city yet. \n Please use `!account-commands` and follow the `!add-cords` commnad.")
                 } else {
-                    console.log(user.city.toLowerCase())
                     let IATA = locationHelper.getCityIATAByName(user.city.toLowerCase());
                     if (IATA == "[ERROR] Can't find an IATA code for this city.") {
                         interaction.reply("[ERROR] Can't find an IATA code for this city. \n Please use `!account-commands` and follow the `!add-cords` commnad.")
@@ -47,13 +46,6 @@ module.exports = {
 
                                 interaction.reply(resume);
                                 showTypeFoodList(interaction);
-                                //
-                                // const message = new EmbedBuilder()
-                                //     .setColor("#FF0000")
-                                //     .setDescription("Here are the restaurants available in your city. \n You can use the reactions to navigate through the pages. \n If you want to stop the list, just click on the stop button. 😊 +" +
-                                // "\n\n **Note**: If you want to see the menu of a restaurant, use the command:\n🍴 `!glovo-menu restaurantID restaurantAddressID` 🍴")
-                                //
-                                // interaction.channel.send({ embeds: [message] })
                             }
                         });
 
@@ -84,7 +76,6 @@ function showTypeFoodList(interaction) {
     const msg_filter = (m) => m.author.id === interaction.author.id;
     interaction.channel.awaitMessages({ filter: msg_filter, max: 1 , time: 30000})
         .then(async (collected) => {
-            console.log("message detected")
             if (foodType.has(collected.first().content.toLowerCase())) {
                 interaction.reply(`Generating the list ${collected.first().content}...`);
                 foodType.get(collected.first().content.toLowerCase()).forEach(element => {

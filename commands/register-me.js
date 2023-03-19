@@ -6,7 +6,7 @@ const { User } = require('../models/User');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('register-me')
-		.setDescription('Register new user'),
+		.setDescription('This command registers a user in the database'),
 	async execute(interaction) {
 		const args = interaction.content.slice(process.env.PREFIX).trim().split(/ +/g);
 		args.shift();
