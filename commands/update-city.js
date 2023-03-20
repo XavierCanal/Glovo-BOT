@@ -8,7 +8,7 @@ const locationHelper = require('../services/locationHelper');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('update-city')
-		.setDescription('Response the user info'),
+		.setDescription('This command updates your city, from your latitude and longitude.'),
 	async execute(interaction) {
         let user = await userController.getLatLong(interaction.author.id);
 		if (!user.lat || ! user.long) {

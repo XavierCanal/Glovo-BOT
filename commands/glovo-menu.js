@@ -9,13 +9,15 @@ let foodType = new Map();
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('glovo-menu')
-        .setDescription('Response the menu from the specified restaurant'),
+        .setDescription('This command shows you the menu of the selected a restaurant.'),
     async execute(interaction) {
         interaction = interaction;
         const args = interaction.content.slice(process.env.PREFIX).trim().split(/ +/g);
         args.shift();
+        let id;
+        let addressID;
         if (!args.length) {
-            await interaction.channel.send(`You didn't provide any arguments, ${interaction.author}! \n We need the restaurant id, use `+"`!glovo-restaurants`"+` to get the list of restaurants`);
+            await interaction.channel.send(`You didn't provide any arguments, ${interaction.author}! \n We need the restaurant id, use ` + "`!glovo-restaurants`" + ` to get the list of restaurants`);
         } else {
             id = args[0];
             addressID = args[1];
@@ -29,7 +31,7 @@ module.exports = {
                         interaction.reply("[ERROR] Can't find an IATA code for this city. \n Please use `!account-commands` and follow the `!add-cords` commnad.")
                     } else {
 
-                        await glovo.getMenu(id, addressID, user,IATA, async (err, data) => {
+                        await glovo.getMenu(id, addressID, user, IATA, async (err, data) => {
                             let resume;
                             if (err) {
                                 console.log('Error:', err.message);
@@ -59,6 +61,7 @@ module.exports = {
 };
 
 function prepareEmbed(element) {
+    let image;
     if (element.data.imageId) {
         image = process.env.IMAGEURL + element.data.imageId;
     } else {
