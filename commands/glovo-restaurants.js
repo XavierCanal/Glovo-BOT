@@ -32,10 +32,10 @@ module.exports = {
                 } else {
                     console.log(user.city.toLowerCase())
                     let IATA = locationHelper.getCityIATAByName(user.city.toLowerCase());
-                    if (IATA == "[ERROR] Can't find an IATA code for this city.") {
-                        interaction.reply("[ERROR] Can't find an IATA code for this city. \n Please use `!account-commands` and follow the `!add-cords` commnad.")
+                    if (IATA === "[ERROR] Can't find an IATA code for this city.") {
+                        interaction.reply("[WARNING] Sorry, this address is out of our delivery zone..")
                     } else {
-                        let embeds = new Array();
+                        let embeds = [];
                         await glovo.getRestaurants(IATA,user, offset, async (err, data) => {
                             if (err) {
                                 console.log('Error:', err.message);
