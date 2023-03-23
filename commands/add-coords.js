@@ -27,7 +27,7 @@ module.exports = {
 							interaction.reply("[ERROR] There was an error while searching your city. Please try again later, using the command `!update-city \n We use a public API, so it could be down. Or we exceded the maximum requests per day 😔")
 						} else {
 							interaction.reply(`[SUCCESS] Your city is ${data.city}! \n saving it...`)
-							interaction.reply(userController.updateCity(user, data.city));
+							interaction.reply(userController.updateCity(user, data.city) + " \n Use `!account` to check your account, remember this command doesn't work in DMs");
 						}
 					});
 				}

@@ -10,7 +10,8 @@ module.exports = {
                 + " You can use the following commands to get started: \n"
                 + "     \`!account-commands\` - to list all account commands\n"
                 + "     \`!glovo\` - to list the available Glovo commands \n"
-                + "     \`!info\` - to get info about me\n"
+                + "     \`!info\` - to get info about me\n\n"
+                + "     https://2daw.gitbook.io/2daw-xcanal/discord-bot/discord-glovo-bot\n"
             );
         } catch (error) {
             console.log(error)
