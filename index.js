@@ -38,33 +38,36 @@ client.once(Events.ClientReady, () => {
 });
 
 client.on(Events.MessageCreate, async interaction => {
-    if (!interaction.content.startsWith(process.env.PREFIX) || interaction.author.bot) return;
-    console.log(`[INFO] Executing command ${interaction.content} from ${interaction.author.tag}.`)
-    let command = interaction.client.commands.get((interaction.content).substring(1));
-    const args = interaction.content.slice(process.env.PREFIX).trim().split(/ +/g);
-
-    if (args.length > 1) {
-        command = interaction.client.commands.get(args[0].substring(1));
-        args.shift;
-
-    }
-    if (!command) {
-        console.error(`No command matching ${interaction.commandName} was found.`);
-        return;
-    }
-
     try {
-        await command.execute(interaction);
-        console.log("Command executed successfully.")
+        if (!interaction.content.startsWith(process.env.PREFIX) || interaction.author.bot) return;
+        console.log(`[INFO] Executing command ${interaction.content} from ${interaction.author.tag}.`)
+        let command = interaction.client.commands.get((interaction.content).substring(1));
+        const args = interaction.content.slice(process.env.PREFIX).trim().split(/ +/g);
+
+        if (args.length > 1) {
+            command = interaction.client.commands.get(args[0].substring(1));
+            args.shift;
+
+        }
+        if (!command) {
+            console.error(`No command matching ${interaction.commandName} was found.`);
+            return;
+        }
+
+        try {
+            await command.execute(interaction);
+            console.log("Command executed successfully.")
+        } catch (error) {
+            console.error(error);
+            if (interaction.replied || interaction.deferred) {
+                await interaction.followUp({content: 'There was an error while executing this command!', ephemeral: true});
+            } else {
+                await interaction.reply({content: 'There was an error while executing this command!', ephemeral: true});
+            }
+        }
     } catch (error) {
         console.error(error);
-        if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({content: 'There was an error while executing this command!', ephemeral: true});
-        } else {
-            await interaction.reply({content: 'There was an error while executing this command!', ephemeral: true});
-        }
     }
-
 });
 
 client.login(process.env.DISCORD_TOKEN);

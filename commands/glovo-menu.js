@@ -11,50 +11,54 @@ module.exports = {
         .setName('glovo-menu')
         .setDescription('This command shows you the menu of the selected a restaurant.'),
     async execute(interaction) {
-        interaction = interaction;
-        const args = interaction.content.slice(process.env.PREFIX).trim().split(/ +/g);
-        args.shift();
-        let id;
-        let addressID;
-        if (!args.length) {
-            await interaction.channel.send(`You didn't provide any arguments, ${interaction.author}! \n We need the restaurant id, use ` + "`!glovo-restaurants`" + ` to get the list of restaurants`);
-        } else {
-            id = args[0];
-            addressID = args[1];
-            let user = userController.getOneUser(interaction.author.id);
-            if (user) {
-                if (!user.city) {
-                    interaction.reply("[ERROR] You haven't set your city yet. \n Please use `!account-commands` and follow the `!add-cords` commnad.")
-                } else {
-                    let IATA = locationHelper.getCityIATAByName(user.city.toLowerCase());
-                    if (IATA == "[ERROR] Can't find an IATA code for this city.") {
-                        interaction.reply("[ERROR] Can't find an IATA code for this city. \n Please use `!account-commands` and follow the `!add-cords` commnad.")
+        try {
+            interaction = interaction;
+            const args = interaction.content.slice(process.env.PREFIX).trim().split(/ +/g);
+            args.shift();
+            let id;
+            let addressID;
+            if (!args.length) {
+                await interaction.channel.send(`You didn't provide any arguments, ${interaction.author}! \n We need the restaurant id, use ` + "`!glovo-restaurants`" + ` to get the list of restaurants`);
+            } else {
+                id = args[0];
+                addressID = args[1];
+                let user = userController.getOneUser(interaction.author.id);
+                if (user) {
+                    if (!user.city) {
+                        interaction.reply("[ERROR] You haven't set your city yet. \n Please use `!account-commands` and follow the `!add-cords` commnad.")
                     } else {
+                        let IATA = locationHelper.getCityIATAByName(user.city.toLowerCase());
+                        if (IATA === "[ERROR] Can't find an IATA code for this city.") {
+                            interaction.reply("[ERROR] Can't find an IATA code for this city. \n Please use `!account-commands` and follow the `!add-cords` commnad.")
+                        } else {
 
-                        await glovo.getMenu(id, addressID, user, IATA, async (err, data) => {
-                            let resume;
-                            if (err) {
-                                console.log('Error:', err.message);
-                                interaction.reply("[ERROR] There was an error while listing the restaurants. Please try again later.. 😔")
-                            } else {
-                                resume = "This restaurant has the following food types: \n\n";
-                                data.data.body.forEach(element => {
-                                    if (element.data.title) {
-                                        foodType.set(element.data.title.toLowerCase(), element.data.elements);
-                                        resume += "**- " + element.data.title + " **\n";
-                                    }
-                                });
-                                resume += "\nReply with the food type to see the list"
+                            await glovo.getMenu(id, addressID, user, IATA, async (err, data) => {
+                                let resume;
+                                if (err) {
+                                    console.log('Error:', err.message);
+                                    interaction.reply("[ERROR] There was an error while listing the restaurants. Please try again later.. 😔")
+                                } else {
+                                    resume = "This restaurant has the following food types: \n\n";
+                                    data.data.body.forEach(element => {
+                                        if (element.data.title) {
+                                            foodType.set(element.data.title.toLowerCase(), element.data.elements);
+                                            resume += "**- " + element.data.title + " **\n";
+                                        }
+                                    });
+                                    resume += "\nReply with the food type to see the list"
 
-                                interaction.reply(resume);
-                                showTypeFoodList(interaction);
-                            }
-                        });
+                                    interaction.reply(resume);
+                                    showTypeFoodList(interaction);
+                                }
+                            });
+
+                        }
 
                     }
-
                 }
             }
+        } catch (error) {
+            console.log(error)
         }
 
     },
@@ -104,10 +108,8 @@ function showTypeFoodList(interaction) {
 
             else
                 interaction.reply('Operation canceled.');
-                return;
         }).catch(() => {
         interaction.reply('No answer after 30 seconds, operation canceled.');
-        return;
     });
 
 }
